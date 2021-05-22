@@ -17,6 +17,7 @@ import {
   Platform,
   I18nManager,
 } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 import PropTypes from "prop-types";
 
@@ -95,9 +96,6 @@ export default class ToggleSwitch extends React.Component {
       width: this.dimensions.width,
       borderRadius: 20,
       padding: this.dimensions.padding,
-      backgroundColor: this.props.isOn
-        ? this.props.onColor
-        : this.props.offColor,
     },
     this.props.isOn ? this.props.trackOnStyle : this.props.trackOffStyle,
   ];
@@ -158,14 +156,26 @@ export default class ToggleSwitch extends React.Component {
         {label ? (
           <Text style={[styles.labelStyle, labelStyle]}>{label}</Text>
         ) : null}
+
         <TouchableOpacity
-          style={this.createToggleSwitchStyle()}
           activeOpacity={0.8}
           onPress={() => (disabled ? null : onToggle(!isOn))}
         >
-          <Animated.View style={this.createInsideCircleStyle()}>
-            {icon}
-          </Animated.View>
+          <LinearGradient
+            colors={
+              !isOn
+                ? [this.props.offColor, this.props.offColor]
+                : ["#3FABFF", "#006BFF"]
+            }
+            useAngle={true}
+            angle={179}
+            angleCenter={{ x: 0.5, y: 0.5 }}
+            style={this.createToggleSwitchStyle()}
+          >
+            <Animated.View style={this.createInsideCircleStyle()}>
+              {icon}
+            </Animated.View>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     );
